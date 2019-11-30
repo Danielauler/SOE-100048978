@@ -1,27 +1,44 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <thread>
-#include <iostream>
 #include <mutex>
-#include <fstream>
-#include <chrono>
 #include <condition_variable>
 #include <future>
 #include <tgbot/tgbot.h>
+#include <unistd.h>
+#include <wiringPi.h>
+
+#define SERVO 26;
 
 using namespace std;
 
-void factorial(int N)
+void sqwv(int pin, int degree, int N)
 {
-    int res = 1;
+	int t1 = (100*degree+4)/9+1500;
+	int t2 = 20000-t1;
+	int i;
+	for(i=0; i<N; i++)
+	{
+		digitalWrite(pin, HIGH);
+		usleep(t1);
+		digitalWrite(pin, LOW);
+		usleep(t2);
+	}
+}
 
-    for (int i = N; i > 1; i--)
-        res *= i;
-
-    cout << "Result is: " << res << endl;
+void feederFunction(int delayTime)
+{
+	sqwv(SAIDA, 90, N);
+    sleep(2);
+    sqwv(SAIDA, 0, N);
 };
 
 int main()
 {
+    int N = 40;
+    wiringPiSetup();
+    pinMode(SERVO, OUTPUT);
+    sqwv(SAIDA, 0, N);
     TgBot::Bot bot("931015860:AAHG6qZTMlopgG29lXC6-_rAPSmNrKiYXm4");
     bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Hi!");
@@ -36,8 +53,8 @@ int main()
         {
             return;
         }
-        thread feeder(factorial, 4);
-        t1.join();
+        thread feeder(feederFunction);
+        feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
     try
