@@ -39,7 +39,7 @@ int main()
     int N = 40;
     wiringPiSetup();
     pinMode(SERVO, OUTPUT);
-    sqwv(SAIDA, 0, N);
+    sqwv(SERVO, 0, N);
     TgBot::Bot bot("931015860:AAHG6qZTMlopgG29lXC6-_rAPSmNrKiYXm4");
     bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Hi!");
