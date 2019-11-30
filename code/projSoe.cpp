@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <wiringPi.h>
 
-#define SERVO 26;
+#define SERVO 26
 
 using namespace std;
 
@@ -28,6 +28,7 @@ void sqwv(int pin, int degree, int N)
 
 void feederFunction(int delayTime)
 {
+    int N = 40;
 	sqwv(SERVO, 90, N);
     sleep(2);
     sqwv(SERVO, 0, N);
