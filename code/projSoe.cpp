@@ -48,42 +48,41 @@ int main()
     InlineKeyboardMarkup::Ptr keyboard(new InlineKeyboardMarkup);
     vector<InlineKeyboardButton::Ptr> row0;
     InlineKeyboardButton::Ptr checkButton(new InlineKeyboardButton);
-    checkButton->text = "check";
-    checkButton->callbackData = "check";
+    checkButton->text = "alimentar";
+    checkButton->callbackData = "alimentar";
     row0.push_back(checkButton);
     keyboard->inlineKeyboard.push_back(row0);
+    vector<InlineKeyboardButton::Ptr> row1;
+    InlineKeyboardButton::Ptr checkButton(new InlineKeyboardButton);
+    checkButton->text = "agendar uma refeição";
+    checkButton->callbackData = "agendar";
+    row1.push_back(checkButton);
+    keyboard->inlineKeyboard.push_back(row1);
 
     bot.getEvents().onCommand("start", [&bot](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
     });
 
-    bot.getEvents().onCommand("Alimentar", [&bot](Message::Ptr message) {
+    bot.getEvents().onCommand("alimentar", [&bot](Message::Ptr message) {
         thread feeder(feederFunction, 2, 40);
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
 
-    bot.getEvents().onCommand("check", [&bot, &keyboard](Message::Ptr message) {
+    bot.getEvents().onCommand("agendar", [&bot, &keyboard](Message::Ptr message) {
         string response = "ok";
         bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard, "Markdown");
     });
 
-    bot.getEvents().onCommand("Help", [&bot, &keyboard](Message::Ptr message) {
+    bot.getEvents().onCommand("help", [&bot, &keyboard](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard);
     });
-    bot.getEvents().onCommand("check", [&bot](Message::Ptr message) {
-        printf("User wrote %s\n", message->text.c_str());
-        if (StringTools::startsWith(message->text, "/start"))
-        {
-            return;
-        }
-        bot.getApi().sendMessage(message->chat->id, "Alimentado");
-    });
+    
     bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
-        if (StringTools::startsWith(query->data, "check"))
+        if (StringTools::startsWith(query->data, "alimentar"))
         {
-            string response = "ok";
-            bot.getApi().sendMessage(query->message->chat->id, response, false, 0, keyboard, "Markdown");
+            string response = "Ok, alimentado";
+            bot.getApi().sendMessage(query->message->chat->id, response);
         }
     });
 
