@@ -1,16 +1,36 @@
 #include <wiringPi.h>
+#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int main (void)
+#define SAIDA 18
+
+void sqwv(int pin, int degree, int N)
 {
-   printf ("Raspberry Pi wiringPi test program\n");
-   wiringPiSetupGpio();
-   pinMode (18, PWM_OUTPUT) ;
-   pwmSetMode (PWM_MODE_MS);
-   pwmSetRange (2000);
-   pwmSetClock (192);
-   pwmWrite(18,150);
-   delay(1000);
-   pwmWrite(18,200);
-   return 0;
+    int t1 = (100 * degree + 4) / 9 + 1500;
+    int t2 = 20000 - t1;
+    int i;
+    for (i = 0; i < N; i++)
+    {
+        digitalWrite(pin, HIGH);
+        usleep(t1);
+        digitalWrite(pin, LOW);
+        usleep(t2);
+    }
+}
+
+int main(void)
+{
+    int N = 40;
+    wiringPiSetup();
+    pinMode(SAIDA, OUTPUT);
+    for (;;)
+    {
+        sleep(1);
+        sqwv(SAIDA, -90, N);
+        sqwv(SAIDA, -45, N);
+        sqwv(SAIDA, 45, N);
+        sqwv(SAIDA, 90, N);
+    }
+    return 0;
 }
