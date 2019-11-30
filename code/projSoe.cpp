@@ -26,7 +26,7 @@ void sqwv(int pin, int degree, int N)
 	}
 }
 
-void feederFunction(int delayTime, N)
+void feederFunction(int delayTime, int N&)
 {
 	sqwv(SERVO, 90, N);
     sleep(delayTime);
@@ -53,7 +53,7 @@ int main()
         {
             return;
         }
-        thread feeder(feederFunction, 2, N);
+        thread feeder(feederFunction, 2, ref(N));
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
