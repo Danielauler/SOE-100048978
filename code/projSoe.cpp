@@ -10,16 +10,14 @@
 
 using namespace std;
 
-int factorial(future<int> &f)
+void factorial(int N)
 {
     int res = 1;
 
-    int N = f.get();
     for (int i = N; i > 1; i--)
         res *= i;
 
     cout << "Result is: " << res << endl;
-    return res;
 };
 
 int main()
@@ -38,19 +36,9 @@ int main()
         {
             return;
         }
-        if (!std::isnan(message->text))
-        {
-            int x;
-            promise<int> p;
-            future<int> f = p.get_future();
-            future<int> fu = std::async(std::launch::async, factorial, std::ref(f));
-
-            this_thread::sleep_for(chrono::milliseconds(20));
-            p.set_value(message->text);
-
-            x = fu.get();
-        }
-        bot.getApi().sendMessage(message->chat->id, "Seu número é" + x);
+        thread feeder(factorial, 4);
+        t1.join();
+        bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
     try
     {
