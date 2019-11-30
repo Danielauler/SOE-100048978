@@ -28,9 +28,9 @@ void sqwv(int pin, int degree, int N)
 
 void feederFunction(int delayTime)
 {
-	sqwv(SAIDA, 90, N);
+	sqwv(SERVO, 90, N);
     sleep(2);
-    sqwv(SAIDA, 0, N);
+    sqwv(SERVO, 0, N);
 };
 
 int main()
