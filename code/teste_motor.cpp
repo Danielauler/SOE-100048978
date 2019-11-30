@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SAIDA 18
+#define SAIDA 1
 using namespace std;
 
 void sqwv(int pin, int degree, int N)
