@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "thread": "cpp",
-        "__functional_03": "cpp"
+        "__functional_03": "cpp",
+        "iostream": "cpp"
     }
 }
