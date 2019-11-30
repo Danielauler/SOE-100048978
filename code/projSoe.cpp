@@ -4,6 +4,9 @@
 #include <mutex>
 #include <condition_variable>
 #include <future>
+#include <csignal>
+#include <cstdio>
+#include <cstdlib>
 #include <tgbot/tgbot.h>
 #include <unistd.h>
 #include <wiringPi.h>
@@ -60,7 +63,12 @@ int main()
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
 
-    bot.getEvents().onCommand("Help", [&bot](Message::Ptr message) {
+    bot.getEvents().onCommand("check", [&bot, &keyboard](Message::Ptr message) {
+        string response = "ok";
+        bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard, "Markdown");
+    });
+
+    bot.getEvents().onCommand("Help", [&bot, &keyboard](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard);
     });
     bot.getEvents().onCommand("check", [&bot](Message::Ptr message) {
@@ -78,6 +86,12 @@ int main()
             bot.getApi().sendMessage(query->message->chat->id, response, false, 0, keyboard, "Markdown");
         }
     });
+
+    signal(SIGINT, [](int s) {
+        printf("SIGINT got\n");
+        exit(0);
+    });
+
     try
     {
         printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
