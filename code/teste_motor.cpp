@@ -23,7 +23,7 @@ void sqwv(int pin, int degree, int N)
 
 void feederFunction(int delayTime, int N)
 {
-    print("motor ok");
+    printf("motor ok");
     sqwv(SERVO, 90, N);
     sleep(delayTime);
     sqwv(SERVO, 0, N);
