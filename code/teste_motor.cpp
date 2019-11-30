@@ -1,41 +1,32 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <thread>
 #include <wiringPi.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#define SERVO 26
-
-using namespace std;
+#define SAIDA 26
 
 void sqwv(int pin, int degree, int N)
 {
-    int t1 = (100 * degree + 4) / 9 + 1500;
-    int t2 = 20000 - t1;
-    int i;
-    for (i = 0; i < N; i++)
-    {
-        digitalWrite(pin, HIGH);
-        usleep(t1);
-        digitalWrite(pin, LOW);
-        usleep(t2);
-    }
+	int t1 = (100*degree+4)/9+1500;
+	int t2 = 20000-t1;
+	int i;
+	for(i=0; i<N; i++)
+	{
+		digitalWrite(pin, HIGH);
+		usleep(t1);
+		digitalWrite(pin, LOW);
+		usleep(t2);
+	}
 }
 
-void feederFunction(int delayTime, int N)
+int main(void)
 {
-    printf("motor ok");
-    sqwv(SERVO, 90, N);
-    sleep(delayTime);
-    sqwv(SERVO, 0, N);
-};
-
-int main()
-{
-    int N = 40;
-    wiringPiSetup();
-    pinMode(SERVO, OUTPUT);
-    sqwv(SERVO, 0, N);
-    thread feeder(feederFunction, 2, 40);
-    feeder.join();
-    return 0;
+	int N = 40;
+	wiringPiSetup();
+	pinMode(SAIDA, OUTPUT);
+	sqwv(SAIDA, -90, N);
+	sqwv(SAIDA, -45, N);
+	sqwv(SAIDA,  45, N);
+	sqwv(SAIDA,  90, N);
+	return 0;
 }
