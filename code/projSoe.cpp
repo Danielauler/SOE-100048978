@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <wiringPi.h>
 
-#define SERVO 26
+#define SERVO 1
 
 using namespace std;
 

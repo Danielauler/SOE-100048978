@@ -7,42 +7,43 @@
 
 using namespace std;
 
-class LogFile
-{
-    std::mutex m_mutex;
-    ofstream file;
+std::mutex mu;
+std::deque<int> q;
+std::condition_variable cond;
 
-public:
-    LogFile()
+void FunctionThread1()
+{
+    int count = 10;
+    while (count > 0)
     {
-    }
-    void shared_print(string id, int value)
-    {
-        if (!file.is_open()) {
-        file.open('log.txt');
-        }
-        // std::lock_guard<mutex> locker(m_mutex);
-        unique_lock<mutex> locker(m_mutex);
-        file << "From " << id << ": " << value << endl;
+        unique_lock<mutex> locker(mu);
+        q.push_front(count);
+        locker.unlock();
+        cond.notify_one();
+        this_thread::sleep_for(chrono::seconds(1));
+        count--;
     }
 };
 
-void FunctionThread(LogFile& log)
+void FunctionThread2()
 {
-    for (int i = 0; i < 100; i++)
+    int data = 0;
+    while (data != 1)
     {
-        log.shared_print(string("From t1: "), i);
+        unique_lock<mutex> locker(mu);
+        cond.wait(locker, [](){ return !q.empty();});
+        data = q.back();
+        q.pop_back();
+        locker.unlock();
+        cout << "t2 got a value from t1: " << data << endl;
     }
-};
+}
 
 int main()
 {
-    LogFile log;
-    thread th(FunctionThread);
-
-    for (int i = 0; i > 100; i--)
-        log.shared_print(string("From main: "), i);
-
-    th.join();
+    thread t1(FunctionThread1);
+    thread t2(FunctionThread2);
+    t1.join();
+    t2.join();
     return 0;
 };
