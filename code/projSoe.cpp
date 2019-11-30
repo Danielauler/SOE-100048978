@@ -48,14 +48,15 @@ int main()
     InlineKeyboardMarkup::Ptr keyboard(new InlineKeyboardMarkup);
     vector<InlineKeyboardButton::Ptr> row0;
     InlineKeyboardButton::Ptr checkButton(new InlineKeyboardButton);
+    InlineKeyboardButton::Ptr checkButton2(new InlineKeyboardButton);
     checkButton->text = "alimentar";
     checkButton->callbackData = "alimentar";
     row0.push_back(checkButton);
     keyboard->inlineKeyboard.push_back(row0);
     vector<InlineKeyboardButton::Ptr> row1;
-    checkButton->text = "agendar uma refeição";
-    checkButton->callbackData = "agendar";
-    row1.push_back(checkButton);
+    checkButton2->text = "agendar uma refeição";
+    checkButton2->callbackData = "agendar";
+    row1.push_back(checkButton2);
     keyboard->inlineKeyboard.push_back(row1);
 
     bot.getEvents().onCommand("start", [&bot](Message::Ptr message) {
@@ -80,8 +81,6 @@ int main()
     bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
-            thread feeder(feederFunction, 2, 40);
-            feeder.join();
             string response = "Ok, alimentado";
             bot.getApi().sendMessage(query->message->chat->id, response);
         }
