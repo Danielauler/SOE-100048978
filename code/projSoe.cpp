@@ -41,22 +41,24 @@ int main()
     sqwv(SERVO, 0, N);
     TgBot::Bot bot("931015860:AAHG6qZTMlopgG29lXC6-_rAPSmNrKiYXm4");
     bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, "Hi!");
+        bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
     });
 
-    // bot.getEvents().onCommand("Alimentar", [&bot](TgBot::Message::Ptr message) {
-    //     bot.getApi().sendMessage(message->chat->id, message->text);
-    // });
-    bot.getEvents().onAnyMessage([&bot](TgBot::Message::Ptr message) {
-        printf("User wrote %s\n", message->text.c_str());
-        if (StringTools::startsWith(message->text, "/start"))
-        {
-            return;
-        }
+    bot.getEvents().onCommand("Alimentar", [&bot](TgBot::Message::Ptr message) {
         thread feeder(feederFunction, 2, 40);
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
+    // bot.getEvents().onAnyMessage([&bot](TgBot::Message::Ptr message) {
+    //     printf("User wrote %s\n", message->text.c_str());
+    //     if (StringTools::startsWith(message->text, "/start"))
+    //     {
+    //         return;
+    //     }
+    //     thread feeder(feederFunction, 2, 40);
+    //     feeder.join();
+    //     bot.getApi().sendMessage(message->chat->id, "Alimentado");
+    // });
     try
     {
         printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
