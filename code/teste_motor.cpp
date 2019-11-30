@@ -1,29 +1,37 @@
 #include <wiringPi.h>
+#include <iostream>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define SAIDA 18
+using namespace std;
+
+void sqwv(int pin, int degree, int N)
+{
+    int t1 = (100 * degree + 4) / 9 + 1500;
+    int t2 = 20000 - t1;
+    int i;
+    for (i = 0; i < N; i++)
+    {
+        digitalWrite(pin, HIGH);
+        usleep(t1);
+        digitalWrite(pin, LOW);
+        usleep(t2);
+    }
+}
 
 int main(void)
 {
-	int i, t = 2000;
-	wiringPiSetup();
-	pinMode(SAIDA, OUTPUT);
-	for(i=0; i<25; i++)
-	{
-		digitalWrite(SAIDA, HIGH);
-		usleep(t);
-		digitalWrite(SAIDA, LOW);
-		usleep(20000-t);
-	}
-	t = 1000;
-	for(i=0; i<25; i++)
-        {
-                digitalWrite(SAIDA, HIGH);
-                usleep(t);
-                digitalWrite(SAIDA, LOW);
-                usleep(20000-t);
-        }
-	return 0;
+    int N = 40;
+    wiringPiSetup();
+    pinMode(SAIDA, OUTPUT);
+    while (1)
+    {
+        delay(1000);
+        sqwv(SAIDA, -90, N);
+        sqwv(SAIDA, -45, N);
+        sqwv(SAIDA, 45, N);
+        sqwv(SAIDA, 90, N);
+    }
 }
