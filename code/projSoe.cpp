@@ -81,6 +81,8 @@ int main()
     bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
+            thread feeder(feederFunction, 2, 40);
+            feeder.join();
             string response = "Ok, alimentado";
             bot.getApi().sendMessage(query->message->chat->id, response);
         }
