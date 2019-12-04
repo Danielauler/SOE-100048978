@@ -131,6 +131,8 @@ int main()
     bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
+            const string photoFilePath = "foto_img.jpg";
+
             bool existencia = verifyBowl(photoFilePath);
             if (!existencia)
             {
