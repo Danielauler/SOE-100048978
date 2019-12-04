@@ -128,7 +128,7 @@ int main()
         bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard);
     });
 
-    bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
+    bot.getEvents().onCallbackQuery([&bot, &keyboard2](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
             const string photoFilePath = "foto_img.jpg";
@@ -152,7 +152,7 @@ int main()
         if (StringTools::startsWith(query->data, "cancel"))
         {
             string response = "ok";
-            bot.getApi().sendMessage(message->chat->id, response);
+            bot.getApi().sendMessage(query->message->chat->id, response);
         }
     });
 
