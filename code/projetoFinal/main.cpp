@@ -189,7 +189,7 @@ int main()
             }
             else
             {
-                bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
+                bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard3);
             }
         }
     });
