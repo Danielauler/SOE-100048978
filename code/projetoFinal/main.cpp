@@ -17,6 +17,10 @@
 using namespace std;
 using namespace TgBot;
 
+void ScheduleFeed() {
+    cout<<"Agendando"<<endl;
+}
+
 void takePic()
 {
     system("fswebcam 320x240 foto_img.jpg");
@@ -69,10 +73,12 @@ int main()
 
     InlineKeyboardMarkup::Ptr keyboard(new InlineKeyboardMarkup);
     InlineKeyboardMarkup::Ptr keyboard2(new InlineKeyboardMarkup);
+    InlineKeyboardMarkup::Ptr keyboard3(new InlineKeyboardMarkup);
     vector<InlineKeyboardButton::Ptr> row0;
     InlineKeyboardButton::Ptr checkButton(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton2(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton3(new InlineKeyboardButton);
+    InlineKeyboardButton::Ptr checkButton4(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton4(new InlineKeyboardButton);
     vector<InlineKeyboardButton::Ptr> row1;
     checkButton->text = "alimentar";
@@ -92,6 +98,16 @@ int main()
     checkButton4->callbackData = "cancelar";
     row1.push_back(checkButton4);
     keyboard2->inlineKeyboard.push_back(row1);
+    
+    checkButton4->text = "Cancelar";
+    checkButton4->callbackData = "cancelar";
+    row1.push_back(checkButton4);
+    keyboard2->inlineKeyboard.push_back(row1);
+   
+    checkButton5->text = "Confirmar";
+    checkButton5->callbackData = "confirmado";
+    row1.push_back(checkButton5);
+    keyboard3->inlineKeyboard.push_back(row0);
 
     bot.getEvents().onCommand("start", [&bot](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
@@ -120,8 +136,18 @@ int main()
     });
 
     bot.getEvents().onCommand("agendar", [&bot, &keyboard](Message::Ptr message) {
-        string response = "ok";
-        bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard, "Markdown");
+        string response = "Vou alimentar seu pet todos os dias as 8h e as 20h. Deseja confirmar?";
+        bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard3);
+    });
+    
+    bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
+        if (StringTools::startsWith(query->data, "confirmado"))
+        {
+                thread schedule(ScheduleFeed, 2, 40);
+                schedule.join();
+                string response = "Ok, agendado";
+                bot.getApi().sendMessage(query->message->chat->id, response);
+        }
     });
 
     bot.getEvents().onCommand("help", [&bot, &keyboard](Message::Ptr message) {
@@ -129,6 +155,26 @@ int main()
     });
 
     bot.getEvents().onCallbackQuery([&bot, &keyboard2](CallbackQuery::Ptr query) {
+        if (StringTools::startsWith(query->data, "alimentar"))
+        {
+            const string photoFilePath = "foto_img.jpg";
+
+            bool existencia = verifyBowl(photoFilePath);
+            if (!existencia)
+            {
+                thread feeder(feederFunction, 2, 40);
+                feeder.join();
+                string response = "Ok, alimentado";
+                bot.getApi().sendMessage(query->message->chat->id, response);
+            }
+            else
+            {
+                bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
+            }
+        }
+    });
+    
+    bot.getEvents().onCallbackQuery([&bot, &keyboard3](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
             const string photoFilePath = "foto_img.jpg";

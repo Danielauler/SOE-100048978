@@ -34,7 +34,7 @@ CV_TERMCRIT_EPS, 10000, 0.0001), tentativas, KMEANS_PP_CENTERS, centros);
 			new_image.at<Vec3b>(y, x)[2] = centros.at<float>(cluster_idx, 2);
 		}	
 	
-	imshow("clustered image", new_image);
+	// imshow("clustered image", new_image);
 	imwrite("clustered_image.jpg", new_image);
 	Mat img = imread("clustered_image.jpg", 0);
 	// Contabilizar quantos pixeis estao associados ao label da racao,
