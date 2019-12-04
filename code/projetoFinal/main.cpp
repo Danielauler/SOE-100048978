@@ -143,7 +143,7 @@ int main()
     bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "confirmado"))
         {
-                thread schedule(ScheduleFeed, 2, 40);
+                thread schedule(ScheduleFeed);
                 schedule.join();
                 string response = "Ok, agendado";
                 bot.getApi().sendMessage(query->message->chat->id, response);
