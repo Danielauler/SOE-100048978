@@ -22,13 +22,12 @@ void takePic()
     system("fswebcam 320x240 foto_img.jpg");
 }
 
-bool verifyBowl()
+bool verifyBowl(photoFilePath)
 {
     bool existencia;
     // thread takePhoto(takePic);
     // takePhoto.join();
-
-    existencia = existencia_racao("foto_img.jpg");
+    existencia = existencia_racao(photoFilePath);
     cout << "tem ração: " << existencia << endl;
     return existencia;
 }
@@ -101,7 +100,7 @@ int main()
     });
 
     bot.getEvents().onCommand("alimentar", [&bot, &photoFilePath, &photoMimeType, &keyboard2](Message::Ptr message) {
-        bool existencia = verifyBowl();
+        bool existencia = verifyBowl(photoFilePath);
         if (!existencia)
         {
             thread feeder(feederFunction, 2, 40);
