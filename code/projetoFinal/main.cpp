@@ -19,7 +19,7 @@ using namespace TgBot;
 
 void takePic()
 {
-    system("fswebcam 320x240 foto_img.jpg")
+    system("fswebcam 320x240 foto_img.jpg");
 }
 
 bool verifyBowl()
