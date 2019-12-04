@@ -15,6 +15,6 @@ if (CURL_FOUND)
     add_definitions(-DHAVE_CURL)
 endif()
 
-add_executable(ComedouroBot main.cpp)
+add_executable(ComedouroBot main.cpp verificaTigela.cpp)
 
 target_link_libraries(ComedouroBot /usr/local/lib/libTgBot.a ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ${OpenCV_LIBS})

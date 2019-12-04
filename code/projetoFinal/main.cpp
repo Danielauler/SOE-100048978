@@ -17,8 +17,6 @@
 using namespace std;
 using namespace TgBot;
 
-bool existencia_racao(char *);
-
 void takePic()
 {
     system("fswebcam 320x240 foto_img.jpg");
