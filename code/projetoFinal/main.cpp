@@ -79,7 +79,7 @@ int main()
     InlineKeyboardButton::Ptr checkButton2(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton3(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton4(new InlineKeyboardButton);
-    InlineKeyboardButton::Ptr checkButton4(new InlineKeyboardButton);
+    InlineKeyboardButton::Ptr checkButton5(new InlineKeyboardButton);
     vector<InlineKeyboardButton::Ptr> row1;
     checkButton->text = "alimentar";
     checkButton->callbackData = "alimentar";
@@ -135,7 +135,7 @@ int main()
         }
     });
 
-    bot.getEvents().onCommand("agendar", [&bot, &keyboard](Message::Ptr message) {
+    bot.getEvents().onCommand("agendar", [&bot, &keyboard3](Message::Ptr message) {
         string response = "Vou alimentar seu pet todos os dias as 8h e as 20h. Deseja confirmar?";
         bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard3);
     });
