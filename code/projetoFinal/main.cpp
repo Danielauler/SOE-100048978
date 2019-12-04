@@ -110,7 +110,7 @@ int main()
             thread feeder(feederFunction, 2, 40);
             feeder.join();
             string response = "Ok, alimentado";
-            bot.getApi().sendMessage(query->message->chat->id, response);
+            bot.getApi().sendMessage(message->chat->id, response);
         }
         else
         {
@@ -131,7 +131,7 @@ int main()
     bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
-            bool existencia = verifyBowl();
+            bool existencia = verifyBowl(photoFilePath);
             if (!existencia)
             {
                 thread feeder(feederFunction, 2, 40);
