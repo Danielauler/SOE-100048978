@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-bool existencia_racao(string filename){
+bool existencia_racao(char *filename){
 	
 	bool existe_racao;
 	int pixeis_racao;

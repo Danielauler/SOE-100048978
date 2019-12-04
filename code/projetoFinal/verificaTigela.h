@@ -4,6 +4,6 @@
 #include "opencv2/highgui/highgui.hpp"
 #include <iostream>
 
-bool existencia_racao();
+bool existencia_racao(char *filename);
 
 #endif
