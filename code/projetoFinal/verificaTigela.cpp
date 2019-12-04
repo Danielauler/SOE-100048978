@@ -33,7 +33,7 @@ CV_TERMCRIT_EPS, 10000, 0.0001), tentativas, KMEANS_PP_CENTERS, centros);
 		}	
 	
 	imshow("clustered image", new_image);
-	imwrite("clustered_image", new_image);
+	imwrite("clustered_image.jpg", new_image);
 	Mat img = imread("clustered_image.jpg", 0);
 	// Contabilizar quantos pixeis estao associados ao label da racao,
 	// e quantos correspondem ao label da tigela
@@ -66,7 +66,7 @@ CV_TERMCRIT_EPS, 10000, 0.0001), tentativas, KMEANS_PP_CENTERS, centros);
 	
 	HoughCircles(img, circles, HOUGH_GRADIENT, 1, 500, 100, 30, 200, 450); //
 	//change the last two parameters
-	// (min_radius & max_radius) to detect larger circles
+	//(min_radius & max_radius) to detect larger circles
 	
 	for (size_t i = 0; i < circles.size(); i++){
 		Vec3i c = circles[i];
@@ -78,7 +78,7 @@ CV_TERMCRIT_EPS, 10000, 0.0001), tentativas, KMEANS_PP_CENTERS, centros);
 	}
 	
 	//imshow("detected circles", cimg);
-	imshow("threshold img", thresh);
+	//imshow("threshold img", thresh);
 	Mat hist;
 	int histSize = 256;
 	float range[] = { 0, 256 };
@@ -102,7 +102,7 @@ CV_TERMCRIT_EPS, 10000, 0.0001), tentativas, KMEANS_PP_CENTERS, centros);
 	}	
 	
 	/// Display
-	namedWindow("calcHist Demo", CV_WINDOW_AUTOSIZE);
+	//namedWindow("calcHist Demo", CV_WINDOW_AUTOSIZE);
 	//imshow("calcHist Demo", histImage);
 	std::cout << "Mean intensity is: " << mean(hist) << std::endl;
 	waitKey();
