@@ -28,7 +28,7 @@ bool verifyBowl()
     // thread takePhoto(takePic);
     // takePhoto.join();
 
-    existencia = existencia_racao('foto_img.jpg');
+    existencia = existencia_racao("foto_img.jpg");
     cout << "tem ração: " << existencia << endl;
     return existencia;
 }
