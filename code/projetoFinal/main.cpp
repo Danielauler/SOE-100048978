@@ -28,15 +28,10 @@ bool verifyBowl(string photoFilePath)
     // thread takePhoto(takePic);
     // takePhoto.join();
 
-    char p[photoFilePath.length()];
+    char *tab2 = new char[photoFilePath.length() + 1];
+    strcpy(tab2, photoFilePath.c_str());
 
-    int i;
-    for (i = 0; i < sizeof(p); i++)
-    {
-        p[i] = photoFilePath[i];
-    }
-
-    existencia = existencia_racao(p);
+    existencia = existencia_racao(tab2);
     cout << "tem ração: " << existencia << endl;
     return existencia;
 }
