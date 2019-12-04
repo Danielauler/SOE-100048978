@@ -22,7 +22,7 @@ void takePic()
     system("fswebcam 320x240 foto_img.jpg");
 }
 
-bool verifyBowl(photoFilePath)
+bool verifyBowl(char *photoFilePath)
 {
     bool existencia;
     // thread takePhoto(takePic);
