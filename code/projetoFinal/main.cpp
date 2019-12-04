@@ -85,7 +85,7 @@ int main()
     keyboard->inlineKeyboard.push_back(row1);
 
     checkButton3->text = "Alimentar mesmo assim";
-    checkButton3->callbackData = "alimentarSemVerificar";
+    checkButton3->callbackData = "SemVerificarAlimentar";
     row0.push_back(checkButton3);
     keyboard2->inlineKeyboard.push_back(row0);
     checkButton4->text = "Cancelar";
@@ -97,7 +97,7 @@ int main()
         bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
     });
 
-    bot.getEvents().onCommand("alimentarSemVerificar", [&bot](Message::Ptr message) {
+    bot.getEvents().onCommand("SemVerificarAlimentar", [&bot](Message::Ptr message) {
         thread feeder(feederFunction, 2, 40);
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
