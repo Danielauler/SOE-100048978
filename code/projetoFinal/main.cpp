@@ -17,24 +17,24 @@
 using namespace std;
 using namespace TgBot;
 
-void takePic()
-{
-    system("fswebcam 320x240 foto_img.jpg");
-}
+// void takePic()
+// {
+//     system("fswebcam 320x240 foto_img.jpg");
+// }
 
-bool verifyBowl(string photoFilePath)
-{
-    bool existencia;
-    // thread takePhoto(takePic);
-    // takePhoto.join();
+// bool verifyBowl(string photoFilePath)
+// {
+//     bool existencia;
+//     // thread takePhoto(takePic);
+//     // takePhoto.join();
 
-    char *tab2 = new char[photoFilePath.length() + 1];
-    strcpy(tab2, photoFilePath.c_str());
+//     char *tab2 = new char[photoFilePath.length() + 1];
+//     strcpy(tab2, photoFilePath.c_str());
 
-    existencia = existencia_racao(tab2);
-    cout << "tem ração: " << existencia << endl;
-    return existencia;
-}
+//     existencia = existencia_racao(tab2);
+//     cout << "tem ração: " << existencia << endl;
+//     return existencia;
+// }
 
 void sqwv(int pin, int degree, int N)
 {
@@ -104,19 +104,19 @@ int main()
     });
 
     bot.getEvents().onCommand("alimentar", [&bot, &photoFilePath, &photoMimeType, &keyboard2](Message::Ptr message) {
-        bool existencia = verifyBowl(photoFilePath);
-        if (!existencia)
-        {
+        // bool existencia = verifyBowl(photoFilePath);
+        // if (!existencia)
+        // {
             thread feeder(feederFunction, 2, 40);
             feeder.join();
             string response = "Ok, alimentado";
             bot.getApi().sendMessage(message->chat->id, response);
-        }
-        else
-        {
-            bot.getApi().sendMessage(message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
-            bot.getApi().sendPhoto(message->chat->id, InputFile::fromFile(photoFilePath, photoMimeType));
-        }
+        // }
+        // else
+        // {
+        //     bot.getApi().sendMessage(message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
+        //     bot.getApi().sendPhoto(message->chat->id, InputFile::fromFile(photoFilePath, photoMimeType));
+        // }
     });
 
     bot.getEvents().onCommand("agendar", [&bot, &keyboard](Message::Ptr message) {
@@ -131,20 +131,20 @@ int main()
     bot.getEvents().onCallbackQuery([&bot, &keyboard2](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
-            const string photoFilePath = "foto_img.jpg";
+            // const string photoFilePath = "foto_img.jpg";
 
-            bool existencia = verifyBowl(photoFilePath);
-            if (!existencia)
-            {
+            // bool existencia = verifyBowl(photoFilePath);
+            // if (!existencia)
+            // {
                 thread feeder(feederFunction, 2, 40);
                 feeder.join();
                 string response = "Ok, alimentado";
                 bot.getApi().sendMessage(query->message->chat->id, response);
-            }
-            else
-            {
-                bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
-            }
+            // }
+            // else
+            // {
+            //     bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
+            // }
         }
     });
 
