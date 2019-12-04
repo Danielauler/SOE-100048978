@@ -3,7 +3,7 @@
 echo ">>> Criando pasta para guardar executável..."
 mkdir build
 echo ">>> Copiando imagem de teste para a pasta"
-mv foto_img.jpg build
+cp foto_img.jpg build
 cd build
 echo ">>> Preparando arquivos para compilação..."
 cmake ../
