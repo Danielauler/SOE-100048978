@@ -87,6 +87,7 @@ int main()
     InlineKeyboardButton::Ptr checkButton4(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton5(new InlineKeyboardButton);
     vector<InlineKeyboardButton::Ptr> row1;
+    vector<InlineKeyboardButton::Ptr> row2;
     checkButton->text = "alimentar";
     checkButton->callbackData = "alimentar";
     row0.push_back(checkButton);
