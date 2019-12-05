@@ -17,20 +17,21 @@
 using namespace std;
 using namespace TgBot;
 
-void ScheduleFeed() {
-    cout<<"Agendando"<<endl;
+void ScheduleFeed()
+{
+    cout << "Agendando" << endl;
 }
 
 void takePic()
 {
-    cout<<"Tirando foto"<<endl;
+    cout << "Tirando foto" << endl;
 
     system("fswebcam 320x240 foto_img.jpg");
 }
 
 bool verifyBowl(string photoFilePath)
 {
-    cout<<"Verificando tigela"<<endl;
+    cout << "Verificando tigela" << endl;
 
     bool existencia;
     // thread takePhoto(takePic);
@@ -60,7 +61,7 @@ void sqwv(int pin, int degree, int N)
 
 void feederFunction(int delayTime, int N)
 {
-    cout<<"Alimentando"<<endl;
+    cout << "Alimentando" << endl;
     sqwv(SERVO, 90, N);
     sleep(delayTime);
     sqwv(SERVO, 0, N);
@@ -94,21 +95,17 @@ int main()
     checkButton2->callbackData = "agendar";
     row1.push_back(checkButton2);
     keyboard->inlineKeyboard.push_back(row1);
-
-    checkButton3->text = "Alimentar mesmo assim";
+  
+    checkButton3->text = "Alimentar sem verificar";
     checkButton3->callbackData = "SemVerificarAlimentar";
-    row0.push_back(checkButton3);
-    keyboard2->inlineKeyboard.push_back(row0);
-    checkButton4->text = "Cancelar";
-    checkButton4->callbackData = "cancelar";
-    row1.push_back(checkButton4);
-    keyboard2->inlineKeyboard.push_back(row1);
-    
+    row2.push_back(checkButton3);
+    keyboard->inlineKeyboard.push_back(row2);
+
     checkButton4->text = "Cancelar";
     checkButton4->callbackData = "cancelar";
     row1.push_back(checkButton4);
     keyboard3->inlineKeyboard.push_back(row1);
-   
+
     checkButton5->text = "Confirmar";
     checkButton5->callbackData = "confirmado";
     row1.push_back(checkButton5);
@@ -125,7 +122,7 @@ int main()
     });
 
     bot.getEvents().onCommand("alimentar", [&bot, &photoFilePath, &photoMimeType, &keyboard2](Message::Ptr message) {
-        cout<<message<<endl;
+        cout << message << endl;
         bool existencia = verifyBowl(photoFilePath);
         if (!existencia)
         {
@@ -136,7 +133,6 @@ int main()
         }
         else
         {
-            bot.getApi().sendMessage(message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
             bot.getApi().sendPhoto(message->chat->id, InputFile::fromFile(photoFilePath, photoMimeType), "A tigela ainda está cheia!");
         }
     });
@@ -145,14 +141,14 @@ int main()
         string response = "Vou alimentar seu pet todos os dias as 8h e as 20h. Deseja confirmar?";
         bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard3);
     });
-    
+
     bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "confirmado"))
         {
-                thread schedule(ScheduleFeed);
-                schedule.join();
-                string response = "Ok, agendado";
-                bot.getApi().sendMessage(query->message->chat->id, response);
+            thread schedule(ScheduleFeed);
+            schedule.join();
+            string response = "Ok, agendado";
+            bot.getApi().sendMessage(query->message->chat->id, response);
         }
     });
 
@@ -160,26 +156,6 @@ int main()
         bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard);
     });
 
-    bot.getEvents().onCallbackQuery([&bot, &keyboard2](CallbackQuery::Ptr query) {
-        if (StringTools::startsWith(query->data, "alimentar"))
-        {
-            const string photoFilePath = "foto_img.jpg";
-
-            bool existencia = verifyBowl(photoFilePath);
-            if (!existencia)
-            {
-                thread feeder(feederFunction, 2, 40);
-                feeder.join();
-                string response = "Ok, alimentado";
-                bot.getApi().sendMessage(query->message->chat->id, response);
-            }
-            else
-            {
-                bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
-            }
-        }
-    });
-    
     bot.getEvents().onCallbackQuery([&bot, &keyboard3](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
@@ -195,10 +171,11 @@ int main()
             }
             else
             {
-                bot.getApi().sendMessage(query->message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard3);
+                bot.getApi().sendPhoto(message->chat->id, InputFile::fromFile(photoFilePath, photoMimeType), "A tigela ainda está cheia!");
             }
         }
     });
+
 
     bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "cancel"))
