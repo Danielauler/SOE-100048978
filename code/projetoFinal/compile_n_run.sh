@@ -15,4 +15,4 @@ echo ">>> Limpando pasta com executável e arquivos para compilação..."
 cd ..
 rm -rf build
 git checkout .
-echo ">>> FIM."
+echo ">>> FIM.."
