@@ -23,11 +23,15 @@ void ScheduleFeed() {
 
 void takePic()
 {
+    cout<<"Tirando foto"<<endl;
+
     system("fswebcam 320x240 foto_img.jpg");
 }
 
 bool verifyBowl(string photoFilePath)
 {
+    cout<<"Verificando tigela"<<endl;
+
     bool existencia;
     // thread takePhoto(takePic);
     // takePhoto.join();
@@ -56,6 +60,7 @@ void sqwv(int pin, int degree, int N)
 
 void feederFunction(int delayTime, int N)
 {
+    cout<<"Alimentando"<<endl;
     sqwv(SERVO, 90, N);
     sleep(delayTime);
     sqwv(SERVO, 0, N);
@@ -102,7 +107,7 @@ int main()
     checkButton4->text = "Cancelar";
     checkButton4->callbackData = "cancelar";
     row1.push_back(checkButton4);
-    keyboard2->inlineKeyboard.push_back(row1);
+    keyboard3->inlineKeyboard.push_back(row1);
    
     checkButton5->text = "Confirmar";
     checkButton5->callbackData = "confirmado";
@@ -120,6 +125,7 @@ int main()
     });
 
     bot.getEvents().onCommand("alimentar", [&bot, &photoFilePath, &photoMimeType, &keyboard2](Message::Ptr message) {
+        cout<<message<<endl;
         bool existencia = verifyBowl(photoFilePath);
         if (!existencia)
         {
@@ -131,7 +137,7 @@ int main()
         else
         {
             bot.getApi().sendMessage(message->chat->id, "A tigela ainda está cheia!", false, 0, keyboard2);
-            bot.getApi().sendPhoto(message->chat->id, InputFile::fromFile(photoFilePath, photoMimeType));
+            bot.getApi().sendPhoto(message->chat->id, InputFile::fromFile(photoFilePath, photoMimeType), "A tigela ainda está cheia!");
         }
     });
 
