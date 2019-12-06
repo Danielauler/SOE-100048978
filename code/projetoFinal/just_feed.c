@@ -26,7 +26,7 @@ int main(void)
     pinMode(SAIDA, OUTPUT);
 
     delay(1000);
-    sqwv(SAIDA, 90, N);
+    sqwv(SAIDA, -90, N);
     delay(2000);
     sqwv(SAIDA, 0, N);
     return 0;

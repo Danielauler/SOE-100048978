@@ -62,7 +62,7 @@ void sqwv(int pin, int degree, int N)
 void feederFunction(int delayTime, int N)
 {
     cout << "Alimentando" << endl;
-    sqwv(SERVO, 90, N);
+    sqwv(SERVO, -90, N);
     sleep(delayTime);
     sqwv(SERVO, 0, N);
 };
@@ -98,7 +98,7 @@ int main()
     keyboard->inlineKeyboard.push_back(row1);
   
     checkButton3->text = "Alimentar sem verificar";
-    checkButton3->callbackData = "SemVerificarAlimentar";
+    checkButton3->callbackData = "semVerificarAlimentar";
     row2.push_back(checkButton3);
     keyboard->inlineKeyboard.push_back(row2);
 
@@ -116,13 +116,13 @@ int main()
         bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
     });
 
-    bot.getEvents().onCommand("SemVerificarAlimentar", [&bot](Message::Ptr message) {
+    bot.getEvents().onCommand("semVerificarAlimentar", [&bot](Message::Ptr message) {
         thread feeder(feederFunction, 2, 40);
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
     
-    bot.getEvents().onCommand("SemVerificarAlimentar", [&bot](Message::Ptr message) {
+    bot.getEvents().onCommand("semVerificarAlimentar", [&bot](Message::Ptr message) {
         thread feeder(feederFunction, 2, 40);
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
@@ -161,7 +161,7 @@ int main()
     });
     
     bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
-        if (StringTools::startsWith(query->data, "SemVerificarAlimentar"))
+        if (StringTools::startsWith(query->data, "semVerificarAlimentar"))
         {
             thread feeder(feederFunction, 2, 40);
             feeder.join();
