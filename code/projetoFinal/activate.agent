@@ -1,2 +1,2 @@
-00 08, 20 * * * /home/<user>/Desktop/a.out
-00 05 * * * /home/<user>/Desktop/a.out
+00 08, 20 * * * ~/Desktop/a.out
+00 12 * * * ~/Desktop/a.out
