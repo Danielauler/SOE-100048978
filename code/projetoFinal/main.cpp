@@ -33,9 +33,9 @@ bool verifyBowl(string photoFilePath)
     cout << "Verificando tigela" << endl;
 
     bool existencia;
-    // system("rm -rf foto_img.jpg")
-    // thread takePhoto(takePic);
-    // takePhoto.join();
+    system("rm -rf foto_img.jpg")
+    thread takePhoto(takePic);
+    takePhoto.join();
 
     char *tab2 = new char[photoFilePath.length() + 1];
     strcpy(tab2, photoFilePath.c_str());
