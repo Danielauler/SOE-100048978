@@ -1,10 +1,11 @@
 #include <wiringPi.h>
-#include <iostream>
+#include <iostream.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define SAIDA 1
+using namespace std;
 
 void sqwv(int pin, int degree, int N)
 {
