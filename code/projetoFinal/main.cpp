@@ -17,6 +17,8 @@ using namespace TgBot;
 void ScheduleFeed()
 {
     cout << "Agendando" << endl;
+
+    system("crontab ../activate.agent")
 }
 
 void takePic()
