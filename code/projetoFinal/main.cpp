@@ -121,6 +121,12 @@ int main()
         feeder.join();
         bot.getApi().sendMessage(message->chat->id, "Alimentado");
     });
+    
+    bot.getEvents().onCommand("SemVerificarAlimentar", [&bot](Message::Ptr message) {
+        thread feeder(feederFunction, 2, 40);
+        feeder.join();
+        bot.getApi().sendMessage(message->chat->id, "Alimentado");
+    });
 
     bot.getEvents().onCommand("alimentar", [&bot, &photoFilePath, &photoMimeType, &keyboard2](Message::Ptr message) {
         cout << message << endl;
@@ -149,6 +155,16 @@ int main()
             thread schedule(ScheduleFeed);
             schedule.join();
             string response = "Ok, agendado";
+            bot.getApi().sendMessage(query->message->chat->id, response);
+        }
+    });
+    
+    bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
+        if (StringTools::startsWith(query->data, "SemVerificarAlimentar"))
+        {
+            thread feeder(feederFunction, 2, 40);
+            feeder.join();
+            string response = "Ok, alimentado";
             bot.getApi().sendMessage(query->message->chat->id, response);
         }
     });
