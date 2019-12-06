@@ -75,7 +75,7 @@ int main()
     Bot bot("931015860:AAHG6qZTMlopgG29lXC6-_rAPSmNrKiYXm4");
 
     InlineKeyboardMarkup::Ptr keyboard(new InlineKeyboardMarkup);
-    InlineKeyboardMarkup::Ptr keyboard3(new InlineKeyboardMarkup);
+    InlineKeyboardMarkup::Ptr keyboard2(new InlineKeyboardMarkup);
     vector<InlineKeyboardButton::Ptr> row0;
     InlineKeyboardButton::Ptr checkButton(new InlineKeyboardButton);
     InlineKeyboardButton::Ptr checkButton2(new InlineKeyboardButton);
@@ -84,8 +84,7 @@ int main()
     InlineKeyboardButton::Ptr checkButton5(new InlineKeyboardButton);
     vector<InlineKeyboardButton::Ptr> row1;
     vector<InlineKeyboardButton::Ptr> row2;
-    vector<InlineKeyboardButton::Ptr> row3;
-    vector<InlineKeyboardButton::Ptr> row4;
+
     checkButton->text = "alimentar";
     checkButton->callbackData = "alimentar";
     row0.push_back(checkButton);
@@ -102,13 +101,13 @@ int main()
 
     checkButton4->text = "Cancelar";
     checkButton4->callbackData = "cancelar";
-    row1.push_back(checkButton4);
-    keyboard3->inlineKeyboard.push_back(row4);
+    row0.push_back(checkButton4);
+    keyboard2->inlineKeyboard.push_back(row0);
 
     checkButton5->text = "Confirmar";
     checkButton5->callbackData = "confirmado";
-    row1.push_back(checkButton5);
-    keyboard3->inlineKeyboard.push_back(row3);
+    row0.push_back(checkButton5);
+    keyboard2->inlineKeyboard.push_back(row0);
 
     bot.getEvents().onCommand("start", [&bot](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
@@ -143,9 +142,9 @@ int main()
         }
     });
 
-    bot.getEvents().onCommand("agendar", [&bot, &keyboard3](Message::Ptr message) {
+    bot.getEvents().onCommand("agendar", [&bot, &keyboard2](Message::Ptr message) {
         string response = "Vou alimentar seu pet todos os dias as 8h e as 20h. Deseja confirmar?";
-        bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard3);
+        bot.getApi().sendMessage(message->chat->id, response, false, 0, keyboard2, "Markdown");
     });
 
     bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
@@ -169,10 +168,10 @@ int main()
     });
 
     bot.getEvents().onCommand("help", [&bot, &keyboard](Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard);
+        bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard, "Markdown");
     });
 
-    bot.getEvents().onCallbackQuery([&bot, &keyboard3](CallbackQuery::Ptr query) {
+    bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "alimentar"))
         {
             const string photoFilePath = "foto_img.jpg";
@@ -194,7 +193,7 @@ int main()
     });
 
 
-    bot.getEvents().onCallbackQuery([&bot, &keyboard](CallbackQuery::Ptr query) {
+    bot.getEvents().onCallbackQuery([&bot](CallbackQuery::Ptr query) {
         if (StringTools::startsWith(query->data, "cancel"))
         {
             string response = "ok";
