@@ -166,6 +166,14 @@ int main()
             bot.getApi().sendMessage(query->message->chat->id, response);
         }
     });
+    
+    bot.getEvents().onCallbackQuery([&bot, &keyboard2](CallbackQuery::Ptr query) {
+        if (StringTools::startsWith(query->data, "agendar"))
+        {
+           string response = "Vou alimentar seu pet todos os dias as 8h e as 20h. Deseja confirmar?";
+        bot.getApi().sendMessage(query->message->chat->id, response, false, 0, keyboard2, "Markdown");
+        }
+    });
 
     bot.getEvents().onCommand("help", [&bot, &keyboard](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Você pode: ", false, 0, keyboard, "Markdown");
