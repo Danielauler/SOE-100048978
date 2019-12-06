@@ -18,7 +18,7 @@ void ScheduleFeed()
 {
     cout << "Agendando" << endl;
 
-    system("crontab ../activate.agent")
+    system("crontab ../activate.agent");
 }
 
 void takePic()
