@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <future>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
@@ -78,7 +75,6 @@ int main()
     Bot bot("931015860:AAHG6qZTMlopgG29lXC6-_rAPSmNrKiYXm4");
 
     InlineKeyboardMarkup::Ptr keyboard(new InlineKeyboardMarkup);
-    InlineKeyboardMarkup::Ptr keyboard2(new InlineKeyboardMarkup);
     InlineKeyboardMarkup::Ptr keyboard3(new InlineKeyboardMarkup);
     vector<InlineKeyboardButton::Ptr> row0;
     InlineKeyboardButton::Ptr checkButton(new InlineKeyboardButton);
@@ -88,6 +84,8 @@ int main()
     InlineKeyboardButton::Ptr checkButton5(new InlineKeyboardButton);
     vector<InlineKeyboardButton::Ptr> row1;
     vector<InlineKeyboardButton::Ptr> row2;
+    vector<InlineKeyboardButton::Ptr> row3;
+    vector<InlineKeyboardButton::Ptr> row4;
     checkButton->text = "alimentar";
     checkButton->callbackData = "alimentar";
     row0.push_back(checkButton);
@@ -105,12 +103,12 @@ int main()
     checkButton4->text = "Cancelar";
     checkButton4->callbackData = "cancelar";
     row1.push_back(checkButton4);
-    keyboard3->inlineKeyboard.push_back(row1);
+    keyboard3->inlineKeyboard.push_back(row4);
 
     checkButton5->text = "Confirmar";
     checkButton5->callbackData = "confirmado";
     row1.push_back(checkButton5);
-    keyboard3->inlineKeyboard.push_back(row0);
+    keyboard3->inlineKeyboard.push_back(row3);
 
     bot.getEvents().onCommand("start", [&bot](Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Olá, vou te ajudar a manter seu pet alimentado. Use o comando /help para mais informações");
