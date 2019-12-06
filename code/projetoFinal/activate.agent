@@ -1,2 +1,2 @@
 00 08, 20 * * * /home/<user>/Desktop/a.out
-55 23 * * * /home/<user>/Desktop/a.out
+00 05 * * * /home/<user>/Desktop/a.out
