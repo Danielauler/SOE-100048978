@@ -2,6 +2,7 @@
     "files.associations": {
         "thread": "cpp",
         "__functional_03": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp"
     }
 }

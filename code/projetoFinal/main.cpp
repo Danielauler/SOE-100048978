@@ -161,6 +161,7 @@ int main()
         if (StringTools::startsWith(query->data, "alimentar"))
         {
             const string photoFilePath = "foto_img.jpg";
+            const string photoMimeType = "image/jpeg";
 
             bool existencia = verifyBowl(photoFilePath);
             if (!existencia)
